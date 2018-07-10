@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.mapper.UserMapper">
+	<resultMap id="BaseResultMap" type="com.springboot.pojo.User">
+		<id column="user_id" property="userId" jdbcType="INTEGER"/>
+		<result column="user_name" property="userName" jdbcType="VARCHAR"/>
+		<result column="user_pwd" property="userPwd" jdbcType="VARCHAR"/>
+		<result column="user_sex" property="userSex" jdbcType="VARCHAR"/>
+		<result column="user_age" property="userAge" jdbcType="VARCHAR"/>
+	</resultMap>
+	<select id="findAllUsers" resultMap="BaseResultMap">
+		select * from user
+	</select>
+	
+	<select id="findUserByID" resultMap="BaseResultMap" parameterType="map">
+		select * from user
+		<where>
+			<if test="userName != null">
+				and user_name = #{userName}
+			</if>
+			
+			<if test="idArr != null">
+				and user_id in 
+					<foreach collection="idArr" index="index" item="item" separator="," open="(" close=")">
+						#{item}
+					</foreach>
+			</if>
+		</where>
+	</select>
+	
+	<select id="findUsersByIDs" resultMap="BaseResultMap">
+		select * from user 
+			where user_id in
+				<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+	</select>
+</mapper>
