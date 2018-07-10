@@ -110,6 +110,7 @@ public class UserController {
 	
 	/**
 	 * 动态参数是array
+	 * 
 	 * @return
 	 */
 	@RequestMapping("/findUsersByIDs")
